@@ -11,10 +11,6 @@ const db = require('./db');
 // define the app/server/whatever
 const server = express();
 
-// start db connection
-db();
-
-
 /*
  Middleware
  */
@@ -31,17 +27,23 @@ const requestLogger = (req, res, next) =>
     next();
 }
 
+server.use(requestLogger);
+
 // import your DAO things
-const Sample = require('./api/samplemodel/sample.dao');
 
+// Using Mongoose
+//const Sample = require('./api/samplemodel/sample.dao');
 
+// Using native mongodb
+const genericDAO = require('./api/samplemodel/mongo.dao');
 
 // import what is essential our router factory function
 const routerFactory = require('./api/router');
  /*
  Routes
  */
-server.use('/', routerFactory(Sample));
+//server.use('/', routerFactory(Sample));
+server.use('/', routerFactory(genericDAO('tasks')));
 
  /*
  Make server listen

@@ -2,12 +2,13 @@ const mongoose = require('mongoose');
 const schema = require('./sample.model');
 
 schema.statics = {
+    // since these are our CRUD methods, why not call them by their CRUD names?
     create: function(data, callback)
     {
         const document = new this(data);
         document.save(callback)
     },
-    get: function(query, callback)
+    read: function(query, callback)
     {
         this.find(query, callback);
     },

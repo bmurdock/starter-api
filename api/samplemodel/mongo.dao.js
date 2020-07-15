@@ -1,36 +1,34 @@
 const client = require('../../native.mongodb.db');
 const config = require('../../config');
-module.exports = function(cname)
+
+module.exports = async function(cname)
 {
-    const db = client.db(config.dbName);
-    const collection = db.collection(cname);
-    return {
-        create: (data) => {
-            collection.insertOne(data)
-            .then((result) =>
-            {
-                console.log(`${cname} document inserrted: `, result);
+    return await client().then(async (client) =>
+    {
+        const db = client.db(config.dbName);
+        const collection = db.collection(cname);
+        return {
+            cname,
+            create: async (data) => {
+                const result = await collection.insertOne(data); 
                 return result;
-            })
-            .catch((err) =>
-            {
-                console.log(`Error inserting document to ${cname}: `, err);
-                return err;
-            });
-        },
-        read: (query) => {
-            collection.find(query)
-            .then((result) =>
-            {
+            },
+            read: async (query) => {
+                const result = await collection.find(query).toArray();
                 return result;
-            })
-            .catch((err) =>
-            {
-                console.log(`Error reading documents from ${cname}: `, err);
-                return err;
-            });
-        },
-        update: () => {},
-        delete: () => {},
-    }
+            },
+            update: async (query, data) => {
+                const set = {};
+                set['$set'] = data;
+                const result = await collection.findOneAndUpdate(query, set, {returnOriginal: false})
+                return result;
+            },
+            delete: () => {},
+        }
+
+    })
+    .catch((err) =>
+    {
+        console.log('Error: ', err);
+    });
 }

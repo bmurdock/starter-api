@@ -2,6 +2,6 @@
 require('dotenv').config();
 module.exports = {
     // this is where you need to put your DB connection string
-    DB: ``,
-    dbName: ``,
+    DB: `${process.env.MONGO_CONNECTION_STRING}`,
+    dbName: `sample`,
 }

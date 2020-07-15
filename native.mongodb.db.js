@@ -4,18 +4,18 @@ const config = require('./config');
 module.exports = async () =>
 {
     const mongoOptions = {
-        useUnifiedToplogy: true,
         useNewUrlParser: true,
+        useUnifiedTopology: true
     };
-
-    MongoClient.connect(config.DB, mongoOptions)
-    .then((client) =>
-    {
+    let client;
+    try {
+        client = await MongoClient.connect(config.DB, mongoOptions);
         console.log('Connected to Mongo...');
         return client;
-    })
-    .catch((err) =>
+    }
+    catch (err)
     {
         console.log('Error connecting to Mongo: ', err);
-    });
+        throw new Error('Could not connect to Mongo');
+    }
 }
