@@ -4,6 +4,15 @@ function handleError(res, err)
     console.log('Got an error: ', err);
     return res.status(400).send({err});
 }
+
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}
+
 // exports a single function that creates an object <- I'd underline if i could
 // the only argument the function expects is a mongoose/data model
 // this is going to CALL our model's CRUD methods, but doesn't necesarily have to be named after them
@@ -11,16 +20,24 @@ module.exports = function(Model)
 {
     return {
         create: (req, res, next) => {
-            Model.create(req.body)
-            .then((result) =>
+            // check to make sure that req.body exists AND it is not an empty object
+            if (req.body && !isEmpty(req.body))
             {
-                res.json({message: `New Mongo document created!`});
-            })
-            .catch((err) =>
+                Model.create(req.body)
+                .then((result) =>
+                {
+                    res.json({message: `New Mongo document created!`});
+                })
+                .catch((err) =>
+                {
+                    console.log('Create error: ', err);
+                    res.json({err});
+                });
+            }
+            else
             {
-                console.log('Create error: ', err);
-                res.json({err});
-            });
+                res.json({error: "This route requires a json formatted body."});
+            }
         },
         update: (req, res, next) => {
             const query = {

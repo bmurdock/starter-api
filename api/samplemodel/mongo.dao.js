@@ -19,7 +19,7 @@ module.exports = async function(cname)
             },
             update: async (query, data) => {
                 const set = {};
-                set['$set'] = data;
+                set['$set'] = data; 
                 const result = await collection.findOneAndUpdate(query, set, {returnOriginal: false})
                 return result;
             },
