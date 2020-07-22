@@ -44,6 +44,7 @@ const routerFactory = require('./api/router');
  */
 //server.use('/', routerFactory(Sample));
 server.use('/', routerFactory(genericDAO('tasks')));
+server.use('/', routerFactory(genericDAO('lists')));
 
  /*
  Make server listen
