@@ -5,6 +5,8 @@ function handleError(res, err)
     return res.status(400).send({err});
 }
 
+// function to check if an object does not have any enumerated properties
+// and thefore is equal to: {}
 function isEmpty(obj) {
     for(var key in obj) {
         if(obj.hasOwnProperty(key))

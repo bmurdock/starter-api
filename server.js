@@ -4,6 +4,8 @@ const express = require('express');
 const argon2 = require('argon2');
 require('dotenv').config();
 const cors = require('cors');
+// import an array of all the models/tables/collections
+const models = require('./api/models');
 
 const config = require('./config');
 const db = require('./db');
@@ -42,11 +44,22 @@ const routerFactory = require('./api/router');
  Routes
  */
 //server.use('/', routerFactory(Sample));
-server.use('/', routerFactory(genericDAO('tasks')));
-server.use('/', routerFactory(genericDAO('lists')));
+
+// or you can loop through the models imported above
+for (let i = 0, l = models.length; i < l; i++)
+{
+	let model = models[i];
+	// this sets up a router for the model
+	server.use('/', routerFactory(model));
+}
 
 /*
+
+
  Make server listen
+
+
+
  */
 // You need to define a PORT value in you .env file
 // or this will default to port 3000
