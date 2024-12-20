@@ -19,12 +19,29 @@ A boilerplate Node.js API designed for rapid development of scalable and maintai
 
 ---
 
+Here is the corrected and verified Markdown for the **Project Structure** section:
+
+
 ## Project Structure
 
-starter-api/ ├── api/ │ ├── samplemodel/ │ │ ├── mongo.dao.js # MongoDB data access logic with Mongoose │ │ ├── sample.dao.js # Abstraction for database access │ │ ├── sample.model.js # Defines MongoDB model/schema │ ├── controller.js # Controller for handling request logic │ ├── router.js # API routes ├── .gitignore # Specifies files to exclude from version control ├── README.md # Project documentation ├── config.js # Configuration settings ├── db.js # Mongoose-based database connection ├── native.mongodb.db.js # Alternative native MongoDB driver connection ├── package.json # Project metadata and dependencies ├── package-lock.json # Dependency lockfile for consistent installs ├── server.js # Entry point for the application
-
-
----
+```
+starter-api/
+├── api/
+│   ├── samplemodel/
+│   │   ├── mongo.dao.js         # MongoDB data access logic with Mongoose
+│   │   ├── sample.dao.js        # Abstraction for database access
+│   │   ├── sample.model.js      # Defines MongoDB model/schema
+│   ├── controller.js            # Controller for handling request logic
+│   ├── router.js                # API routes
+├── .gitignore                   # Specifies files to exclude from version control
+├── README.md                    # Project documentation
+├── config.js                    # Configuration settings
+├── db.js                        # Mongoose-based database connection
+├── native.mongodb.db.js         # Alternative native MongoDB driver connection
+├── package.json                 # Project metadata and dependencies
+├── package-lock.json            # Dependency lockfile for consistent installs
+├── server.js                    # Entry point for the application
+```
 
 ## Getting Started
 
