@@ -1,62 +1,76 @@
 # Starter API
 
-A boilerplate Node.js API designed for rapid development of scalable and maintainable web applications using Express.js and MongoDB. The repository is structured with a clear separation of concerns, making it easy to extend and adapt for various use cases.
+Minimal Express and MongoDB starter API for building REST-style backend projects.
 
----
+## Why This Exists
 
-## Features
+This repository is meant to be a clean starting point for small Node.js APIs that need routing, database access, and a structure that is easy to extend.
 
-- **Express.js Framework**: Provides a robust foundation for building RESTful APIs.
-- **MongoDB Integration**: Supports both Mongoose and native MongoDB driver connections.
-- **Modular Design**: Separation of concerns with models, controllers, and routes.
-- **Secure Configuration**: Uses `dotenv` for environment variables and includes `.gitignore` for sensitive files.
-- **Middleware**:
-  - `body-parser`: For parsing JSON request bodies.
-  - `helmet`: For securing HTTP headers.
-  - `cors`: For enabling cross-origin resource sharing.
-  - `morgan`: For logging HTTP requests.
-- **Scalable Project Structure**: Organized to facilitate clean code and easy maintenance.
+Instead of starting from an empty folder each time, this project gives you a basic backend foundation with sample modules, database configuration, and a layout that separates concerns clearly.
 
----
+## Stack
 
-Here is the corrected and verified Markdown for the **Project Structure** section:
-
+- Node.js
+- Express
+- MongoDB
+- Mongoose
+- dotenv
+- helmet
+- cors
+- morgan
 
 ## Project Structure
 
-```
+```text
 starter-api/
 ├── api/
 │   ├── samplemodel/
-│   │   ├── mongo.dao.js         # MongoDB data access logic with Mongoose
-│   │   ├── sample.dao.js        # Abstraction for database access
-│   │   ├── sample.model.js      # Defines MongoDB model/schema
-│   ├── controller.js            # Controller for handling request logic
-│   ├── router.js                # API routes
-├── .gitignore                   # Specifies files to exclude from version control
-├── README.md                    # Project documentation
-├── config.js                    # Configuration settings
-├── db.js                        # Mongoose-based database connection
-├── native.mongodb.db.js         # Alternative native MongoDB driver connection
-├── package.json                 # Project metadata and dependencies
-├── package-lock.json            # Dependency lockfile for consistent installs
-├── server.js                    # Entry point for the application
+│   │   ├── mongo.dao.js
+│   │   ├── sample.dao.js
+│   │   └── sample.model.js
+│   ├── controller.js
+│   └── router.js
+├── config.js
+├── db.js
+├── native.mongodb.db.js
+├── server.js
+└── package.json
 ```
 
-## Getting Started
+## Running Locally
 
-### Prerequisites
+1. Clone the repository.
+2. Install dependencies.
+3. Configure environment variables.
+4. Start the server.
 
-Ensure you have the following installed on your machine:
+```bash
+git clone https://github.com/bmurdock/starter-api.git
+cd starter-api
+npm install
+cp .env.example .env
+npm start
+```
 
-- [Node.js](https://nodejs.org/) (v16 or higher recommended)
-- [MongoDB](https://www.mongodb.com/) (local or cloud instance)
-- npm (comes with Node.js)
+If your local setup does not include `.env.example`, create the environment file manually and point it at your MongoDB instance.
 
-### Installation
+## What You Get
 
-1. Clone the repository:
+- Express server setup
+- MongoDB connection support
+- Example API module structure
+- Common middleware for logging, security, and CORS
+- A base you can adapt for CRUD-style backend apps
 
-   ```bash
-   git clone https://github.com/bmurdock/starter-api.git
-   cd starter-api
+## Notable Implementation Details
+
+- The repo includes both Mongoose-based and native MongoDB connection options.
+- Sample module files show one way to separate models, data access, controllers, and routes.
+- The structure is intentionally simple so it can be reused as a starting point for other projects.
+
+## Good Fit For
+
+- small internal APIs
+- class or portfolio backend projects
+- quick prototypes that still need structure
+- new Node.js projects that should not start from scratch
