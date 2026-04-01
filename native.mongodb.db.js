@@ -1,21 +1,22 @@
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient } = require('mongodb');
 const config = require('./config');
 
-module.exports = async () =>
+module.exports = async function connectWithMongoClient()
 {
-    const mongoOptions = {
-        useUnifiedToplogy: true,
-        useNewUrlParser: true,
-    };
-
-    MongoClient.connect(config.DB, mongoOptions)
-    .then((client) =>
+    if (!config.DB)
     {
+        throw new Error('No DB connection string configured.');
+    }
+
+    try
+    {
+        const client = await MongoClient.connect(config.DB);
         console.log('Connected to Mongo...');
         return client;
-    })
-    .catch((err) =>
+    }
+    catch (err)
     {
         console.log('Error connecting to Mongo: ', err);
-    });
+        throw err;
+    }
 }

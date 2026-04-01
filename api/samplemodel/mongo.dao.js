@@ -1,34 +1,20 @@
-const client = require('../../native.mongodb.db');
+const getClient = require('../../native.mongodb.db');
 const config = require('../../config');
-module.exports = function(cname)
+
+module.exports = async function(cname)
 {
+    const client = await getClient();
     const db = client.db(config.dbName);
     const collection = db.collection(cname);
+
     return {
-        create: (data) => {
-            collection.insertOne(data)
-            .then((result) =>
-            {
-                console.log(`${cname} document inserrted: `, result);
-                return result;
-            })
-            .catch((err) =>
-            {
-                console.log(`Error inserting document to ${cname}: `, err);
-                return err;
-            });
+        create: async (data) => {
+            const result = await collection.insertOne(data);
+            console.log(`${cname} document inserted: `, result);
+            return result;
         },
-        read: (query) => {
-            collection.find(query)
-            .then((result) =>
-            {
-                return result;
-            })
-            .catch((err) =>
-            {
-                console.log(`Error reading documents from ${cname}: `, err);
-                return err;
-            });
+        read: async (query) => {
+            return collection.find(query).toArray();
         },
         update: () => {},
         delete: () => {},

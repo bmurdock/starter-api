@@ -3,75 +3,78 @@ function handleError(res, err)
     console.log('Got an error: ', err);
     return res.status(400).send({err});
 }
-// exports a single function that creates an object <- I'd underline if i could
-// the only argument the function expects is a mongoose model 
+
 module.exports = function(Model)
 {
     return {
-        create: (req, res, next) => {
+        create: async (req, res, next) => {
             console.log('body: ', req.body);
-            Model.create(req.body, function (err, result) {
-                if (err) {
-                    handleError(res, err);
-                    return;
-                }
+            try
+            {
+                const result = await Model.create(req.body);
                 res.json({
                     message: `${Model.modelName} created successfully.`,
                     result,
                 });
-            })
+            }
+            catch (err)
+            {
+                handleError(res, err);
+            }
         },
-        update: (req, res, next) => {
-            const query = {
-                _id: req.params.id
-            };
-            Model.update(query, req.body, (err, result) => {
-                if (err) {
-                    handleError(res, err);
-                    return;
-                }
+        update: async (req, res, next) => {
+            try
+            {
+                const result = await Model.findOneAndUpdate(
+                    { _id: req.params.id },
+                    { $set: req.body },
+                    { new: true }
+                );
                 res.json({
                     message: `${Model.modelName} updated successfully.`,
                     result,
                 });
-            })
+            }
+            catch (err)
+            {
+                handleError(res, err);
+            }
         },
-        delete: (req, res, next) => {
-            const query = {
-                _id: req.params.id
-            };
-            Model.delete(query, (err, result) => {
-                if (err) {
-                    handleError(res, err);
-                    return;
-                }
+        delete: async (req, res, next) => {
+            try
+            {
+                const result = await Model.findOneAndDelete({ _id: req.params.id });
                 res.json({
                     message: `${Model.modelName} deleted successfully.`,
                     result,
                 });
-            })
+            }
+            catch (err)
+            {
+                handleError(res, err);
+            }
         },
-        getAll: (req, res, next) => {
-            const query = {};
-            Model.get(query, (err, result) => {
-                if (err) {
-                    handleError(res, err);
-                    return;
-                }
+        getAll: async (req, res, next) => {
+            try
+            {
+                const result = await Model.find({});
                 res.json(result);
-            })
+            }
+            catch (err)
+            {
+                handleError(res, err);
+            }
         },
-        getById: (req, res, next) => {
-            const query = {
-                _id: req.params.id
-            };
-            Model.get(query, (err, result) => {
-                if (err) {
-                    handleError(res, err);
-                    return;
-                }
+        getById: async (req, res, next) => {
+            try
+            {
+                const result = await Model.findById(req.params.id);
                 res.json(result);
-            })
+            }
+            catch (err)
+            {
+                handleError(res, err);
+            }
         },
     }
 }

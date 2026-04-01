@@ -6,7 +6,6 @@ const express = require('express');
 // accept an array of models or a single model as argument
 module.exports = function (models) {
     // create new express router
-    const modelKey = Model.modelName.toLowerCase();
     const router = express.Router();
     const controller = require('./controller');
 
@@ -20,6 +19,7 @@ module.exports = function (models) {
         Models.push(models);
     }
     Models.forEach((Model) => {
+        const modelKey = Model.modelName.toLowerCase();
         const ctrl = controller(Model);
         router.get(`/api/${modelKey}/`, ctrl.getAll);
         router.get(`/api/${modelKey}/:id`, ctrl.getById);

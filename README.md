@@ -1,6 +1,6 @@
 # Starter API
 
-Minimal Express and MongoDB starter API for building REST-style backend projects.
+Minimal Express and MongoDB starter API for building REST-style backend projects with current Node.js and current core dependencies.
 
 ## Why This Exists
 
@@ -10,14 +10,13 @@ Instead of starting from an empty folder each time, this project gives you a bas
 
 ## Stack
 
-- Node.js
-- Express
-- MongoDB
-- Mongoose
+- Node.js 20.19+
+- Express 5
+- MongoDB driver 7
+- Mongoose 9
 - dotenv
-- helmet
 - cors
-- morgan
+- argon2
 
 ## Project Structure
 
@@ -52,7 +51,11 @@ cp .env.example .env
 npm start
 ```
 
-If your local setup does not include `.env.example`, create the environment file manually and point it at your MongoDB instance.
+The starter expects these environment variables:
+
+- `DB`
+- `DB_NAME`
+- `PORT`
 
 ## What You Get
 
@@ -64,8 +67,9 @@ If your local setup does not include `.env.example`, create the environment file
 
 ## Notable Implementation Details
 
-- The repo includes both Mongoose-based and native MongoDB connection options.
-- Sample module files show one way to separate models, data access, controllers, and routes.
+- The repo includes both Mongoose-based and native MongoDB connection examples.
+- Route handlers use async and await rather than legacy callback-style Mongoose APIs.
+- The sample API module shows one way to separate models, controllers, and routes.
 - The structure is intentionally simple so it can be reused as a starting point for other projects.
 
 ## Good Fit For

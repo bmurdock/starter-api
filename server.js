@@ -1,18 +1,17 @@
 // require/import all the things
 const express = require('express');
-// you only need this if you want to hash passwords
-const argon2 = require('argon2');
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 const cors = require('cors');
 
-const config = require('./config');
 const db = require('./db');
 
 // define the app/server/whatever
 const server = express();
 
 // start db connection
-db();
+db().catch(() => {
+    // Allow the starter to boot even if a local MongoDB instance is not running.
+});
 
 
 /*
@@ -27,9 +26,10 @@ server.use(express.json());
 const requestLogger = (req, res, next) =>
 {
     const now = new Date();
-    console.log(`${now}:::> Incoming request to ${req.originalUrl}`)
+    console.log(`${now.toISOString()} :::> Incoming request to ${req.originalUrl}`);
     next();
 }
+server.use(requestLogger);
 
 // import your DAO things
 const Sample = require('./api/samplemodel/sample.dao');
@@ -56,5 +56,5 @@ server.listen(process.env.PORT || 3000, (err) =>
     {
         console.log('Error starting server: ', err);
     }
-    console.log(`Server listening on port ${process.env.PORT}...`);
+    console.log(`Server listening on port ${process.env.PORT || 3000}...`);
 });

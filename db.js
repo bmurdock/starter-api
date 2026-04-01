@@ -1,22 +1,13 @@
 const mongoose = require('mongoose');
 const config = require('./config');
 
-
-module.exports = function()
+module.exports = async function connectWithMongoose()
 {
-    mongoose.set('useNewUrlParser', true);
-    mongoose.set('useFindAndModify', false);
-    mongoose.set('useCreateIndex', true);
-    mongoose.set('useUnifiedTopology', true);
-    mongoose.connect(config.DB)
-    .then((result) =>
+    if (!config.DB)
     {
-        return result;
-    })
-    .catch((err) =>
-    {
-        console.log('Error connecting to db: ', err);
-    })
+        console.log('No DB connection string configured. Skipping MongoDB connection.');
+        return null;
+    }
 
     mongoose.connection.on('connected', function(){
         console.log('Mongoose connected to the database...');
@@ -30,12 +21,20 @@ module.exports = function()
         console.log('Mongoose connection was disconnected...');
     });
 
-    // handle when the application closes unexpectedly
-    process.on('SIGINT', function()
+    process.on('SIGINT', async function()
     {
-        mongoose.connection.close(function(){
-            console.log('Mongoose connection closed due to server interruption.');
-            process.exit(0);
-        });
+        await mongoose.connection.close();
+        console.log('Mongoose connection closed due to server interruption.');
+        process.exit(0);
     });
+
+    try
+    {
+        return await mongoose.connect(config.DB);
+    }
+    catch (err)
+    {
+        console.log('Error connecting to db: ', err);
+        throw err;
+    }
 }
